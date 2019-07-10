@@ -506,3 +506,4 @@ HDU2222:查找有几个模式串在文本串中出现过
 		return 0;  
 	}   
 
+edit by songhailei
