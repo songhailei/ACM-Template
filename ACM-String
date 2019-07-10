@@ -1,4 +1,5 @@
-//KMP
+
+/****************  KMP  **************/
 void GetFail(char *P,int *Next)//得到失配函数
 {
 	int len = strlen(P);
@@ -22,3 +23,51 @@ void Find(char *T,char *P,int *Next)
 		if(j==len2)  cout<<i-len2+1<<endl;						
 	}	
 }
+/************************ EXKMP ************************/
+
+(求s2与s1的每一个后缀的最大公共前缀)
+const int maxn=100010; //字符串长度最大值  
+int next[maxn],ex[maxn]; //ex数组即为extend数组  
+//预处理计算next数组  
+void GETNEXT(char *str)  
+{  
+    int i=0,j,po,len=strlen(str);  
+    next[0]=len;
+    while(str[i]==str[i+1]&&i+1<len)
+    i++;  next[1]=i;  
+po=1;    
+for(i=2;i<len;i++)  
+    {  
+        if(next[i-po]+i<next[po]+po)
+        next[i]=next[i-po];  
+        else {  
+            j=next[po]+po-i;  
+            if(j<0) j=0;  
+            while(i+j<len&&str[j]==str[j+i])   j++;  
+            next[i]=j;  po=i;
+        }  
+    }  
+}  
+void EXKMP(char *s1,char *s2)  //计算extend数组  
+{  
+    int i=0,j,po,len=strlen(s1),l2=strlen(s2);  
+    GETNEXT(s2);//计算子串的next数组  
+    while(s1[i]==s2[i]&&i<l2&&i<len)//计算ex[0]  
+    i++;  ex[0]=i;  
+    po=0;//初始化po的位置  
+    for(i=1;i<len;i++)  
+    {  
+        if(next[i-po]+i<ex[po]+po)//第一种情况，直接可以得到ex[i]的值  
+        ex[i]=next[i-po];  
+        else//第二种情况，要继续匹配才能得到ex[i]的值  
+        {  
+            j=ex[po]+po-i;  
+            if(j<0)j=0;//如果i>ex[po]+po则要从头开始匹配  
+            while(i+j<len&&j<l2&&s1[j+i]==s2[j])   j++;  
+            ex[i]=j;  
+            po=i;//更新po的位置  
+        }  
+    }  
+} 
+
+edit by @songhailei
