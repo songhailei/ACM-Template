@@ -1,1 +1,24 @@
 
+void GetFail(char *P,int *Next)//得到失配函数
+{
+	int len = strlen(P);
+	Next[0]= 0, Next[1]=0;	
+	for(int i=1;i<len;i++)
+	{
+		int j=Next[i];		
+		while(j && P[i]!=P[j]) j=Next[j];		
+		Next[i+1] = P[i]==P[j]? j+1:0; 
+	}	
+}
+void Find(char *T,char *P,int *Next)
+{//查找字符串在文本串出现的位置
+	int len1 = strlen(T), len2 = strlen(P);	
+	GetFail(P,Next);	
+	int j = 0;	
+	for(int i=0;i<len1;i++)	
+{
+		while(j && P[j]!=T[i])  j=Next[j];		
+		if(P[j]==T[i])  j++;		
+		if(j==len2)  cout<<i-len2+1<<endl;						
+	}	
+}
