@@ -1,4 +1,4 @@
-
+//KMP
 void GetFail(char *P,int *Next)//得到失配函数
 {
 	int len = strlen(P);
